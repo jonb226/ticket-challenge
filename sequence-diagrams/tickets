@@ -6,6 +6,7 @@ TicketService -> SeatHoldRepository: insert(Email, SeatHold)
 TicketService --> App: SeatHold
 TicketService -> TicketService: removeExpiredHolds()
 TicketService -> SeatHoldRepository: getExpiredHolds()
+SeatHoldRepository --> TicketService: Collection<SeatHold>
 TicketService -> SeatRepository: removeHold(Collection<Seat>)
 TicketService -> SeatHoldRepository: delete(SeatHoldId)
 App -> TicketService: numSeatsAvailable()
@@ -13,5 +14,5 @@ TicketService -> SeatRepository: numSeatsAvailable()
 SeatRepository --> TicketService: Collection<Seat>
 TicketService --> App: int
 App -> TicketService: reserveSeats(int seatHoldId, String email)
-TicketService -> TicketService: deleteHoldExpiration(SeatHoldId)
+TicketService -> SeatHoldRepository: removeExpiration(SeatHoldId)
 @enduml

@@ -2,14 +2,14 @@ package com.challenge.tickets;
 
 import java.util.Objects;
 
-public class OpaqueStringId{
-    private String id;
+public abstract class OpaqueId<T>{
+    private T id;
 
-    protected OpaqueStringId(String id){
+    protected OpaqueId(T id){
         this.id = id;
     }
 
-    public String stringValue(){
+    public T value(){
         return id;
     }
 
@@ -17,7 +17,7 @@ public class OpaqueStringId{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OpaqueStringId id1 = (OpaqueStringId) o;
+        OpaqueId id1 = (OpaqueId) o;
         return Objects.equals(id, id1.id);
     }
 

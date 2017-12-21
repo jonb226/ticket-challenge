@@ -1,6 +1,6 @@
 package com.challenge.tickets;
 
-public class Seat extends OpaqueStringId{
+public class Seat extends OpaqueId<String>{
     private Seat(String id) {
         super(id);
     }

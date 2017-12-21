@@ -1,6 +1,7 @@
 package com.challenge.tickets;
 
 import com.google.common.collect.ImmutableList;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -38,7 +39,7 @@ public class StandardTicketServiceTest {
     public void canFindAndHoldSeats(){
         String customerEmail = "test-hold@test.com";
         Email email = Email.from(customerEmail);
-        List<Seat> seats = ImmutableList.of(seat(), seat());
+        List<Seat> seats = ImmutableList.of(Seat.from("1A"), Seat.from("1B"));
         when(seatRepository.findAndHoldBestSeats(anyInt())).thenReturn(seats);
 
         SeatHold hold = service.findAndHoldSeats(10, customerEmail);
@@ -48,8 +49,17 @@ public class StandardTicketServiceTest {
         assertThat(hold.getSeats()).isEqualTo(seats);
     }
 
-    private Seat seat(){
-        return Seat.from("1A");
+    @Test
+    public void canReserveSeats(){
+        int seatHoldId = 1;
+        String reservationCode = service.reserveSeats(seatHoldId, "test-reserve@test.com");
+        verify(seatHoldRepository, times(1)).removeExpiration(SeatHoldId.from(seatHoldId));
+        assertThat(reservationCode).isNotBlank();
+    }
+
+    @Test
+    public void canRemoveExpiredHolds(){
+        // this isn't publicly visible from the class, so leave it to higher-level integration tests
     }
 
 }

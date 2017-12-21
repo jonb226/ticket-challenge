@@ -31,6 +31,7 @@ public class StandardTicketService implements TicketService{
 
     @Override
     public String reserveSeats(int seatHoldId, String customerEmail) {
-        return null;
+        seatHoldRepository.removeExpiration(SeatHoldId.from(seatHoldId));
+        return seatHoldId + "";
     }
 }

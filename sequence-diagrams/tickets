@@ -1,21 +1,16 @@
 @startuml
 App -> TicketService: findAndHoldSeats(int numSeats, Email)
-TicketService -> Venue: holdBestAvailableSeats(int numSeats)
-Venue -> SeatRepository: findAndHoldBestSeats(int numSeats)
-SeatRepository --> Venue: Collection<Seats>
-Venue -> SeatHoldRepository: insert(Email, SeatHoldId,  Collection<Seat>)
-Venue --> TicketService: Collection<SeatHold>
-TicketService -> TicketService: addHoldExpiration(SeatHold)
+TicketService -> SeatRepository: findAndHoldBestSeats(int numSeats)
+SeatRepository --> TicketService: Collection<Seat>
+TicketService -> SeatHoldRepository: insert(Email, SeatHold)
 TicketService --> App: SeatHold
 TicketService -> TicketService: removeExpiredHolds()
-TicketService -> Venue: removeHold(SeatHold)
-Venue -> SeatHoldRepository: delete(SeatHoldId)
-Venue -> SeatRepository: removeHold(Collection<Seat>)
+TicketService -> SeatHoldRepository: getExpiredHolds()
+TicketService -> SeatRepository: removeHold(Collection<Seat>)
+TicketService -> SeatHoldRepository: delete(SeatHoldId)
 App -> TicketService: numSeatsAvailable()
-TicketService -> Venue: numSeatsAvailable()
-Venue -> SeatRepository: heldSeats()
-SeatRepository --> Venue: Collection<Seat>
-Venue --> TicketService: int
+TicketService -> SeatRepository: numSeatsAvailable()
+SeatRepository --> TicketService: Collection<Seat>
 TicketService --> App: int
 App -> TicketService: reserveSeats(int seatHoldId, String email)
 TicketService -> TicketService: deleteHoldExpiration(SeatHoldId)

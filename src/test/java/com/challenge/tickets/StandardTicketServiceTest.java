@@ -1,11 +1,11 @@
 package com.challenge.tickets;
 
 import com.google.common.collect.ImmutableList;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.Collection;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,13 +53,18 @@ public class StandardTicketServiceTest {
     public void canReserveSeats(){
         int seatHoldId = 1;
         String reservationCode = service.reserveSeats(seatHoldId, "test-reserve@test.com");
-        verify(seatHoldRepository, times(1)).removeExpiration(SeatHoldId.from(seatHoldId));
+        verify(seatHoldRepository, times(1)).removeExpiration(ImmutableList.of(SeatHoldId.from(seatHoldId)));
         assertThat(reservationCode).isNotBlank();
     }
 
     @Test
     public void canRemoveExpiredHolds(){
-        // this isn't publicly visible from the class, so leave it to higher-level integration tests
+        Collection<Seat> seats = ImmutableList.of(Seat.from("1A"));
+        SeatHold hold = SeatHold.from(seats, Email.from("test-expire@test.com"));
+        when(seatHoldRepository.getExpiredHolds()).thenReturn(ImmutableList.of(hold));
+        service.removeExpiredHolds();
+        verify(seatRepository, times(1)).removeHold(seats);
+        verify(seatHoldRepository, times(1)).removeExpiration(ImmutableList.of(hold.getId()));
     }
 
 }

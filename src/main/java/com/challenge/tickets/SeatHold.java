@@ -4,12 +4,12 @@ import java.util.Collection;
 import java.util.Random;
 
 public class SeatHold {
-    private int id;
+    private SeatHoldId id;
     private Collection<Seat> seats;
     private Email email;
 
     private SeatHold(int id, Collection<Seat> seats, Email email) {
-        this.id = id;
+        this.id = SeatHoldId.from(id);
         this.seats = seats;
         this.email = email;
     }
@@ -19,7 +19,7 @@ public class SeatHold {
         return new SeatHold(id, seats, email);
     }
 
-    public int getId() {
+    public SeatHoldId getId() {
         return id;
     }
 

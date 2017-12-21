@@ -1,8 +1,12 @@
 package com.challenge.tickets;
 
+import com.google.common.collect.ImmutableList;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class StandardTicketService implements TicketService{
@@ -31,7 +35,14 @@ public class StandardTicketService implements TicketService{
 
     @Override
     public String reserveSeats(int seatHoldId, String customerEmail) {
-        seatHoldRepository.removeExpiration(SeatHoldId.from(seatHoldId));
+        seatHoldRepository.removeExpiration(ImmutableList.of(SeatHoldId.from(seatHoldId)));
         return seatHoldId + "";
+    }
+
+    @Scheduled(fixedDelay = 10000)
+    public void removeExpiredHolds(){
+        Collection<SeatHold> holds = seatHoldRepository.getExpiredHolds();
+        seatRepository.removeHold(holds.stream().flatMap(h -> h.getSeats().stream()).collect(toList()));
+        seatHoldRepository.removeExpiration(holds.stream().map(h -> h.getId()).collect(toList()));
     }
 }

@@ -1,0 +1,11 @@
+@startuml
+TicketService -> Venue: holdBestAvailableSeats
+Venue -> SeatRepository: findAndHoldBestSeats
+SeatRepository --> Venue: Collection<Seats>
+Venue -> SeatHoldRepository: insert(Email, Collection<Seat>)
+Venue --> TicketService: Collection<SeatHold>
+TicketService -> TicketService: removeExpiredHolds
+TicketService -> Venue: removeHold(SeatHold)
+Venue -> SeatHoldRepository: delete(Email)
+Venue -> SeatRepository: removeHold(Collection<Seat>)
+@enduml

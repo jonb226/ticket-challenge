@@ -45,4 +45,9 @@ public class InMemorySeatHoldRepositoryTest {
         assertThat(repo.getExpiredHolds()).isEmpty();
     }
 
+    @Test(expected = HoldExpiredOrNonExistentException.class)
+    public void canHandleExpiredNonExistentHolds(){
+        repo.removeExpiration(ImmutableList.of(SeatHoldId.from(1000)));
+    }
+
 }

@@ -15,7 +15,7 @@ public class SmallVenue implements Venue{
     public SmallVenue(){
         this.seats = Lists.newArrayList();
         IntStream.range(1, 21).forEach((i) ->
-                IntStream.range(0, 10).forEach((a) ->
+                IntStream.range(0, 20).forEach((a) ->
                         seats.add(Seat.from("" + i + ((char)('A' + a))))
                 )
         );

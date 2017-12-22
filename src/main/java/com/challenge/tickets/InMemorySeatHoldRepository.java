@@ -32,7 +32,13 @@ public class InMemorySeatHoldRepository implements SeatHoldRepository {
 
     @Override
     public void removeExpiration(Collection<SeatHoldId> ids) {
-        ids.forEach((id) -> holds.get(id).seatHold.removeExpiration());
+        ids.forEach((id) -> {
+            CompleteHoldInfo hold = holds.get(id);
+            if(hold == null){
+                throw new HoldExpiredOrNonExistentException(id);
+            }
+            hold.seatHold.removeExpiration();
+        });
     }
 
     @Override

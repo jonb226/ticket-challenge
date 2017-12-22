@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 public class InMemorySeatRepository implements SeatRepository {
 
     private final int totalNumSeats;
-    private SeatSelectionStrategy strategy;
+    private final SeatSelectionStrategy strategy;
     private final Set<Seat> heldSeats = new ConcurrentSkipListSet<>();
 
     public InMemorySeatRepository(Venue venue, SeatSelectionStrategy strategy){

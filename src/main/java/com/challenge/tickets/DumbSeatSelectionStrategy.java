@@ -14,7 +14,7 @@ import java.util.Set;
  */
 @Component
 public class DumbSeatSelectionStrategy implements SeatSelectionStrategy {
-    private final List<Seat> allSeats = new ArrayList<>();
+    private final List<Seat> allSeats = Lists.newArrayList();
 
     @Override
     public void cacheSeats(List<Seat> favoredSeats) {
@@ -25,6 +25,9 @@ public class DumbSeatSelectionStrategy implements SeatSelectionStrategy {
     public Collection<Seat> selectAndRemoveNextBestSeats(int numSeats, Set<Seat> takenSeats) {
         ArrayList<Seat> remainingSeats = Lists.newArrayList(allSeats);
         remainingSeats.removeAll(takenSeats);
+        if (remainingSeats.size() < numSeats) {
+            throw new OutOfSeatsException();
+        }
         return remainingSeats.subList(0, numSeats);
     }
 }

@@ -66,5 +66,4 @@ public class StandardTicketServiceTest {
         verify(seatRepository, times(1)).removeHold(seats);
         verify(seatHoldRepository, times(1)).removeExpiration(ImmutableList.of(hold.getId()));
     }
-
 }

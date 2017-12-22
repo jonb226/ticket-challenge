@@ -16,9 +16,9 @@ public class SmallVenueTest {
 
     @Test
     public void hasSeats(){
-        assertThat(venue.seatsInFavoredOrder()).hasSize(200);
+        assertThat(venue.seatsInFavoredOrder()).hasSize(400);
         assertThat(venue.seatsInFavoredOrder().get(0)).isEqualTo(Seat.from("1A"));
-        assertThat(venue.seatsInFavoredOrder().get(199)).isEqualTo(Seat.from("20J"));
+        assertThat(venue.seatsInFavoredOrder().get(199)).isEqualTo(Seat.from("10T"));
     }
 
 }

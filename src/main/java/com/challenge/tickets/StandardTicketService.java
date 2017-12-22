@@ -28,7 +28,7 @@ public class StandardTicketService implements TicketService{
     public SeatHold findAndHoldSeats(int numSeats, String customerEmail) {
         Collection<Seat> seats = seatRepository.findAndHoldBestSeats(numSeats);
         Email email = Email.from(customerEmail);
-        SeatHold hold = SeatHold.from(seats, email);
+        SeatHold hold = SeatHold.from(seats, email, 1);
         seatHoldRepository.insert(email, hold);
         return hold;
     }

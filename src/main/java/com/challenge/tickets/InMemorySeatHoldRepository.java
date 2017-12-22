@@ -1,6 +1,7 @@
 package com.challenge.tickets;
 
 import com.google.common.collect.Lists;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * The definitive state of seats being claimed or not exists in a SeatRepository, so everything here just needs to be
  * eventually consistent, so can just use the semantics in the ConcurrentHashMap
  */
+@Repository
 public class InMemorySeatHoldRepository implements SeatHoldRepository {
 
     private static class CompleteHoldInfo {
@@ -30,7 +32,13 @@ public class InMemorySeatHoldRepository implements SeatHoldRepository {
 
     @Override
     public void removeExpiration(Collection<SeatHoldId> ids) {
-        ids.forEach((id) -> holds.get(id).seatHold.removeExpiration());
+        ids.forEach((id) -> {
+            CompleteHoldInfo hold = holds.get(id);
+            if(hold == null){
+                throw new HoldExpiredOrNonExistentException(id);
+            }
+            hold.seatHold.removeExpiration();
+        });
     }
 
     @Override

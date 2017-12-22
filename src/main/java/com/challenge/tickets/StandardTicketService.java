@@ -1,6 +1,8 @@
 package com.challenge.tickets;
 
 import com.google.common.collect.ImmutableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +11,9 @@ import java.util.Collection;
 import static java.util.stream.Collectors.toList;
 
 @Service
-public class StandardTicketService implements TicketService{
+public class StandardTicketService implements TicketService {
+
+    private final static Logger logger = LoggerFactory.getLogger(StandardTicketService.class);
 
     private SeatRepository seatRepository;
     private SeatHoldRepository seatHoldRepository;
@@ -39,7 +43,7 @@ public class StandardTicketService implements TicketService{
         return seatHoldId + "";
     }
 
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelayString = "${expiration_delay}")
     public void removeExpiredHolds(){
         Collection<SeatHold> holds = seatHoldRepository.getExpiredHolds();
         seatRepository.removeHold(holds.stream().flatMap(h -> h.getSeats().stream()).collect(toList()));

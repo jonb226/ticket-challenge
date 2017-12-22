@@ -60,7 +60,7 @@ public class StandardTicketServiceTest {
     @Test
     public void canRemoveExpiredHolds(){
         Collection<Seat> seats = ImmutableList.of(Seat.from("1A"));
-        SeatHold hold = SeatHold.from(seats, Email.from("test-expire@test.com"));
+        SeatHold hold = SeatHold.from(seats, Email.from("test-expire@test.com"), 1);
         when(seatHoldRepository.getExpiredHolds()).thenReturn(ImmutableList.of(hold));
         service.removeExpiredHolds();
         verify(seatRepository, times(1)).removeHold(seats);

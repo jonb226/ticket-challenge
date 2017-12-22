@@ -1,6 +1,13 @@
 @startuml
 App -> TicketService: findAndHoldSeats(int numSeats, Email)
 TicketService -> SeatRepository: findAndHoldBestSeats(int numSeats)
+SeatRepository -> Venue: seatsInFavoredOrder
+Venue --> SeatRepository: List<Seat>
+SeatRepository -> SeatSelectionStrategy: cacheSeats(Collection<Seat>)
+SeatRepository -> SeatSelectionStrategy: selectAndRemoveNextBestSeats(int numSeats)
+SeatSelectionStrategy -> Seat: adjacentSeats
+Seat --> SeatSelectionStrategy: Collection<Seat>
+SeatSelectionStrategy --> SeatRepository: Collection<Seat>
 SeatRepository --> TicketService: Collection<Seat>
 TicketService -> SeatHoldRepository: insert(Email, SeatHold)
 TicketService --> App: SeatHold
@@ -8,11 +15,11 @@ TicketService -> TicketService: removeExpiredHolds()
 TicketService -> SeatHoldRepository: getExpiredHolds()
 SeatHoldRepository --> TicketService: Collection<SeatHold>
 TicketService -> SeatRepository: removeHold(Collection<Seat>)
-TicketService -> SeatHoldRepository: delete(SeatHoldId)
+TicketService -> SeatHoldRepository: delete(Collection<SeatHoldId>)
 App -> TicketService: numSeatsAvailable()
 TicketService -> SeatRepository: numSeatsAvailable()
 SeatRepository --> TicketService: Collection<Seat>
 TicketService --> App: int
 App -> TicketService: reserveSeats(int seatHoldId, String email)
-TicketService -> SeatHoldRepository: removeExpiration(SeatHoldId)
+TicketService -> SeatHoldRepository: removeExpiration(Collection<SeatHoldId>)
 @enduml

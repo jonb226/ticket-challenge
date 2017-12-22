@@ -2,7 +2,7 @@ package com.challenge.tickets;
 
 import java.util.Objects;
 
-public abstract class OpaqueId<T>{
+public class OpaqueId<T extends Comparable> implements Comparable {
     private T id;
 
     protected OpaqueId(T id){
@@ -24,5 +24,20 @@ public abstract class OpaqueId<T>{
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if(!(o instanceof OpaqueId)){
+            throw new IllegalArgumentException("Cannot compare class " + o.getClass() + " to an OpaqueId");
+        }
+        return ((OpaqueId) o).value().compareTo(value());
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "{" +
+                "id=" + id +
+                '}';
     }
 }

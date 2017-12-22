@@ -1,6 +1,7 @@
 package com.challenge.tickets;
 
 import com.google.common.collect.Lists;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import java.util.Set;
  * cacheSeats must be called before any selection takes place. selectAndRemoveNextBestSeats is only thread-safe within
  * itself, and cannot be called concurrently with cacheSeats
  */
+@Component
 public class DumbSeatSelectionStrategy implements SeatSelectionStrategy {
     private final List<Seat> allSeats = new ArrayList<>();
 

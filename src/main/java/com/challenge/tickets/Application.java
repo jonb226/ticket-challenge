@@ -1,4 +1,4 @@
-package com.challenge.app;
+package com.challenge.tickets;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

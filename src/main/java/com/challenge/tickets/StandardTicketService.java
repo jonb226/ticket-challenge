@@ -9,7 +9,7 @@ import java.util.Collection;
 import static java.util.stream.Collectors.toList;
 
 @Service
-public class StandardTicketService implements TicketService{
+public class StandardTicketService implements TicketService {
 
     private SeatRepository seatRepository;
     private SeatHoldRepository seatHoldRepository;

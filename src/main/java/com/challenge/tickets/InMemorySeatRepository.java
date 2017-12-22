@@ -1,10 +1,13 @@
 package com.challenge.tickets;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+@Repository
 public class InMemorySeatRepository implements SeatRepository {
 
     private final int totalNumSeats;
